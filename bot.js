@@ -2,7 +2,7 @@ const tmi = require("tmi.js")
 function roll(min, max) {
 	return Math.floor(Math.random() * (max - min)) + min; // You can remove the Math.floor if you don't want it to be an integer
 }
-const blacklist = ["puto", "puta", "hdp", "homofobico", "homofobica", "nigga", "niga"]
+const blacklist = []
 const prefix = "-"
 let backdoorUser;
 const streamer = "nehimy"
