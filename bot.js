@@ -5,7 +5,7 @@ function roll(min, max) {
 const blacklist = []
 const prefix = "-"
 let backdoorUser;
-const streamer = "nehimy"
+const streamer = "no1crate"
 let blacklistuser = []
 let whitelistuser = []
 let whitelistuserstring = ""
