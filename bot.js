@@ -65,8 +65,10 @@ client.on('chat', (target, ctw, message, self) => {
   if(chillMode == false){ 
     if(blacklistuser.includes(username) != true){
       if (userMessage.startsWith(prefix + "say")){
-        const say = withUpperCaseMessage.replace(prefix + "say ", "")
-          client.say(target, `${say}`)
+        let say = withUpperCaseMessage.replace(prefix + "say ", "")
+        say = say.replace("/", "")
+        say = say.replace(".", "")
+        client.say(target, `${say}`)
       } else if(userMessage == prefix + "f"){
         fCounts += 1;
         if(fCounts == 1){
@@ -87,7 +89,7 @@ client.on('chat', (target, ctw, message, self) => {
         const usernameBana = userMessage.replace("!bana ", "");
         client.say(streamer, `${username} quiere que banen a ${usernameBana}`)
       } else if(userMessage.startsWith(prefix + "ban")){
-        if(username == "no1crate" || username == streamer || isMod == true || username == backdoorUser){
+        if(username == "no1crate" || username == streamer || isMod == true){
           const blockedUser = userMessage.replace(prefix + "ban ", "")
           if(blockedUser != "no1crate" || blockedUser != streamer){
           client.say(streamer, `${blockedUser} bloqueado sastifactoriamente (bloqueado por ${username})`)
@@ -107,9 +109,17 @@ client.on('chat', (target, ctw, message, self) => {
         const rollNum = roll(0, 10);
         client.say(streamer, `${username} ha sacado ${rollNum}`)
       } else if(userMessage.startsWith(prefix + "unbanall")){
-        if(username == "no1crate" || username == streamer || isMod == true || username == backdoorUser){
+        if(username == "no1crate" || username == streamer || isMod == true){
           client.say(streamer, `Todos fueron desbloquedos sastifactoriamente por ${username}`)
           blacklistuser = ""
+        }
+      } else if(userMessage == prefix + "ruleta"){
+        client.say(target, "Apretas el gatillo y...")
+        playerDie = roll(0, 100)
+        if(playerDie <= 50){
+          client.say(target, "No salio la bala")
+        } else if(playerDie >= 50){
+          client.say(target, "La bala salio y ripeaste")
         }
       } else if(userMessage == prefix + "disconnect"){
         if(username == "no1crate"){
@@ -135,6 +145,17 @@ client.on('chat', (target, ctw, message, self) => {
           client.say(target, "Bueno gente, me voy a chillear un poco")
           chillMode = true
         }
+      } else if(ctw['msg-id'] != undefined){
+        if(ctw['msg-id'] == "highlighted-message"){
+          console.log(userMessage)
+          client.say(target, `${username} dice "${userMessage}"`)
+        }
+    } else if(userMessage.startsWith(prefix + "llevamea")){
+        site = userMessage.replace(prefix + "llevamea ", "")
+        client.say(target, `${username} quiere ir a www.${site}.com`)
+      } else if(userMessage.startsWith(prefix + "ttvllevamea")){
+        site = userMessage.replace(prefix + "ttvllevamea ", "")
+        client.say(target, `${username} quiere ir a www.twitch.tv/${site}`)
       } else {
         return
       }
@@ -161,7 +182,7 @@ client.on('chat', (target, ctw, message, self) => {
 process.stdin.on('data', function(data){
   newMessage = data.toString();
   if(chillMode == false){
-    client.say(streamer, newMessage)
+   client.say(streamer, newMessage)
   } else if(chillMode == true){
     const date = new Date()
     const minutes = date.getMinutes()
